@@ -17,6 +17,10 @@ class User_Note {
 
 	public function register()
 	{
+		if ( ! is_admin() ) {
+			return;
+		}
+
 		add_action( 'edit_user_profile', array( $this, 'edit_user_profile' ) );
 		add_action( 'profile_update', array( $this, 'profile_update' ), 10, 2 );
 	}
@@ -59,6 +63,6 @@ class User_Note {
 
 	public static function current_user_can()
 	{
-		return current_user_can( 'edit_users' );
+		return current_user_can( apply_filters( 'user_note_role', 'edit_users' ) );
 	}
 }
